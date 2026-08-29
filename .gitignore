@@ -1,12 +1,8 @@
-# drafts, not ready to publish yet
 spec.md
 README.md
-JOURNAL.md
 
-# secrets
 secrets.h
 
-# KiCad noise
 *.lck
 *.kicad_prl
 *-backups/
