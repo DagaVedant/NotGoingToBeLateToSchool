@@ -1,0 +1,154 @@
+# NotGoingToBeLateToSchool
+
+a 9 key alarm clock that makes you type a code to shut it up.
+
+built on a xiao esp32c3 for [hack club blare](https://blare.hackclub.com). during the day it
+sits on my desk cycling through weather, hackatime hours, now playing and world clocks. at
+6am it tells my phone to start playing spotify instead of screaming at me with a piezo. you
+get 3 snoozes, and on the 3rd one you have to type a code on the keypad before it stops.
+
+![hero](TODO-hero.jpg)
+
+## why
+
+every alarm clock i've had is useless for the 16 hours a day you're awake, and way too easy
+to snooze into oblivion. this one tries to fix both.
+
+## what it does
+
+ambient stuff:
+- auto rotates through weather / hackatime hours / now playing / world clocks
+- shows my actual iphone notifications over ble using ancs, so texts and calls land on the strip
+- all the network data comes in as one small json from a relay, so the clock only makes one
+  https request a minute instead of juggling four apis itself
+
+alarm stuff:
+- pairs as a ble media remote and hits play on my phone, so i wake up to music not a buzzer
+- 3 snoozes max. first two are normal, on the 3rd it goes into code entry and keeps going
+  until you type the right code
+- screen fades up from near black to full brightness starting ~15 min before the alarm.
+  fake sunrise
+- multiple alarms with per day schedules, all editable on the device
+- escalating piezo buzzer as backup if the phone isn't connected
+
+controls:
+- 9 mx switches in a 3x3 matrix on top of the case
+- 2.25in st7789 on the front face
+- normally a menu pad, in code entry the keys become a number pad
+
+## pics
+
+| | |
+|---|---|
+| schematic | ![](TODO-schematic.png) |
+| pcb | ![](TODO-pcb.png) |
+| cad | ![](TODO-cad.png) |
+| built | ![](TODO-built.jpg) |
+
+## how it works
+
+the xiao has exactly 11 gpio and this uses every single one. that constraint shaped basically
+the whole board.
+
+| what | pins |
+|---|---|
+| buzzer | 1 |
+| tft (sclk, sda, dc, cs) | 4 |
+| matrix rows | 3 |
+| matrix cols | 3 |
+| **total** | **11 / 11** |
+
+got 2 pins back by tying the display's `rst` to 3v3 and `bl` to gnd, which is what the blare
+docs say to do when you run out. downside is no hardware brightness control, so the sunrise
+ramp is done in software with a dimming palette instead of pwm.
+
+the 3x3 matrix gets 9 keys out of 6 pins using 9 of the 12 diodes in the kit. firmware drives
+one column low at a time and reads the three rows.
+
+### pin map
+
+| pad | gpio | net |
+|---|---|---|
+| d0 | 2 | ROW1 |
+| d1 | 3 | TFT_SCLK |
+| d2 | 4 | TFT_SDA |
+| d3 | 5 | TFT_DC |
+| d4 | 6 | TFT_CS |
+| d5 | 7 | BUZZER |
+| d6 | 21 | COL1 |
+| d7 | 20 | COL2 |
+| d8 | 8 | ROW3 |
+| d9 | 9 | ROW2 |
+| d10 | 10 | COL3 |
+
+the 3 rows sit on gpio2, gpio8 and gpio9 which are strapping pins. no external pull ups. the
+columns are hi-z at boot so nothing can drag a row low while the chip is figuring out how to
+start.
+
+## the board
+
+69.5 x 97mm, 2 layers, 25 footprints. 284 tracks, 22 vias, about 2.1m of copper.
+
+- keys on the top side at 19.05 pitch so the caps clear each other
+- everything else underneath, so the case only shows keycaps
+- xiao at the back with usb-c out the rear
+- 8 pin display header at the front edge so the jumper run to the screen is short
+- diodes tucked into the 5mm gaps between key rows
+- 4x m3 mounting holes
+
+board sits flat under the top deck and the screen mounts on the front face, so they're on
+different planes and nothing on the pcb has to stay clear for the display.
+
+## bom
+
+from the kit:
+
+| qty | part |
+|---|---|
+| 1 | seeed xiao esp32c3 |
+| 9 | mx style switches |
+| 9 | blank dsa keycaps |
+| 9 | 1n4148 diodes |
+| 1 | 2.25in st7789 tft, 284x76 |
+| 1 | 3.3v piezo buzzer |
+| 1 | 8 pin 2.54mm male header |
+| 8 | 20cm f-f jumper wires |
+| 8 | m3x5x4 heatset inserts |
+| 4 | m3x8mm screws |
+| 4 | m3x16mm screws |
+
+unused from the kit: 3 switches, 3 keycaps, 3 diodes.
+
+sourced separately: nothing electrical. only thing outside the kit is filament for the case.
+
+## repo
+
+| path | what |
+|---|---|
+| `PCB/` | kicad project, gerbers, board step |
+| `CAD/` | assembly step, stls, onshape link |
+| `firmware/` | arduino sketch |
+
+kicad project is in `PCB/kicad_schematic/`. gerbers are in `PCB/gerber/`, ready to zip and send
+to a fab.
+
+## status
+
+- [x] schematic
+- [x] pcb placed and routed, gerbers + step exported
+- [ ] case cad
+- [ ] firmware
+
+## stuff to know if you build one
+
+- the display's `scl` and `sda` are spi, not i2c, despite the names
+- `vcc` on the display goes to 3v3. the pad next to gnd on the xiao is 5v and will kill it
+- diode cathodes face the columns. backwards and the scan reads nothing
+- the extra pads on top of the xiao symbol in kicad aren't spare pins. they're jtag pads for
+  gpio you're already using, so wiring to them shorts two nets
+- the c3 has ble only, no bluetooth classic, so it can never be an a2dp speaker. driving the
+  phone with a media remote is the way around it
+
+## licence
+
+TODO
