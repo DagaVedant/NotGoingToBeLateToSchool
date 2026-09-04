@@ -18,18 +18,21 @@ to snooze into oblivion. this one tries to fix both.
 
 ambient stuff:
 - auto rotates through weather / hackatime hours / now playing / world clocks
-- shows my actual iphone notifications over ble using ancs, so texts and calls land on the strip
+- spinning globe on the clock face, same animation as the oled on my hackpad
 - all the network data comes in as one small json from a relay, so the clock only makes one
   https request a minute instead of juggling four apis itself
 
+not switched on yet, code is written but needs a real board to test:
+- pairing as a ble media remote so the alarm hits play on my phone instead of buzzing
+- iphone notifications over ancs
+
 alarm stuff:
-- pairs as a ble media remote and hits play on my phone, so i wake up to music not a buzzer
+- multiple alarms, each with its own days of the week, all editable on the device
 - 3 snoozes max. first two are normal, on the 3rd it goes into code entry and keeps going
   until you type the right code
 - screen fades up from near black to full brightness starting ~15 min before the alarm.
   fake sunrise
-- multiple alarms with per day schedules, all editable on the device
-- escalating piezo buzzer as backup if the phone isn't connected
+- escalating piezo buzzer that speeds up the longer you ignore it
 
 controls:
 - 9 mx switches in a 3x3 matrix on top of the case
@@ -77,13 +80,14 @@ one column low at a time and reads the three rows.
 | d5 | 7 | BUZZER |
 | d6 | 21 | COL1 |
 | d7 | 20 | COL2 |
-| d8 | 8 | ROW3 |
-| d9 | 9 | ROW2 |
-| d10 | 10 | COL3 |
+| d8 | 8 | COL3 |
+| d9 | 9 | ROW3 |
+| d10 | 10 | ROW2 |
 
-the 3 rows sit on gpio2, gpio8 and gpio9 which are strapping pins. no external pull ups. the
-columns are hi-z at boot so nothing can drag a row low while the chip is figuring out how to
-start.
+rows are gpio2, gpio9 and gpio10, columns are gpio21, gpio20 and gpio8. gpio8 and gpio9 are
+strapping pins and both have to read high at boot. the rows use internal pull ups and the
+columns are hi-z until setup runs, so a key held down at power on can only ever pull a line
+up through its diode, never down. no external pull ups needed.
 
 ## the board
 
@@ -138,7 +142,8 @@ thing zipped, ready to drop straight into jlcpcb.
 - [x] schematic
 - [x] pcb placed and routed, drc clean, gerbers + drill + step exported
 - [ ] case cad
-- [ ] firmware
+- [x] firmware: clock, matrix, alarms, info pages
+- [ ] firmware: ble remote and ancs, written but untested
 
 ## stuff to know if you build one
 
