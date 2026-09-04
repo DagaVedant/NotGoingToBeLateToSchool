@@ -18,8 +18,9 @@
     - all four pages come from one json off the relay, one request a minute
     - pages auto rotate, or arrow through them yourself
 
-  ble is written but switched off, see ENABLE_BLE below. it compiles clean
-  with NimBLE-Arduino 2.5.1, i just have no board to run it on yet.
+  ble is on. it compiles clean against NimBLE-Arduino 2.5.1 but has never run
+  on hardware, because the board does not exist yet. build it on the Minimal
+  SPIFFS partition, see the flash numbers below.
 
   board: esp32 core 3.3.11, Seeed XIAO ESP32C3
   libraries: Adafruit GFX, Adafruit ST7735/ST7789, Adafruit BusIO,
@@ -27,10 +28,10 @@
 
   flash, measured:
     ENABLE_BLE 0  ->  1155141 bytes, 88% of the default partition. fits.
-    ENABLE_BLE 1  ->  1394487 bytes, 106% of the default partition, so it
-                      does NOT fit. change Tools > Partition Scheme to
-                      "Minimal SPIFFS (1.9MB APP with OTA)" -> 70%, keeps ota
-                      or "Huge APP (3MB No OTA)"            -> 44%, no ota
+    ENABLE_BLE 1  ->  1394487 bytes, 106% of the default partition, so the
+                      default does NOT fit. on Minimal SPIFFS it is 70% and
+                      still has ota, which is what this is set up for.
+                      Huge APP also works, 44%, but drops ota.
 */
 
 #include <Adafruit_GFX.h>
@@ -45,7 +46,10 @@
 #include "secrets.h"
 #include "globe.h"
 
-#define ENABLE_BLE 0    // 1 = build the spotify remote and iphone notifications
+// BUILD NOTE: with this at 1 the sketch is 1394487 bytes, which overflows the
+// default partition. set Tools > Partition Scheme to "Minimal SPIFFS (1.9MB
+// APP with OTA/128KB SPIFFS)" or it will not fit.
+#define ENABLE_BLE 1    // 1 = build the spotify remote and iphone notifications
 
 // these have to be up here with the other includes. the .ino preprocessor
 // hoists its generated prototypes to the top of the file, so if the nimble

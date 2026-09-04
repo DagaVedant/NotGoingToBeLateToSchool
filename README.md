@@ -22,12 +22,11 @@ ambient stuff:
 - all the network data comes in as one small json from a relay, so the clock only makes one
   https request a minute instead of juggling four apis itself
 
-not switched on yet, compiles clean but needs a real board to test:
-- pairing as a ble media remote so the alarm hits play on my phone instead of buzzing
+ble stuff, compiles clean but has never run on hardware:
+- pairs as a ble media remote so the alarm hits play on my phone instead of buzzing
 - iphone notifications over ancs
-- flip `ENABLE_BLE` to 1 in the sketch, then change Tools > Partition Scheme, because with
-  ble on the build is 1394487 bytes which is 106% of the default partition. "Minimal SPIFFS"
-  puts it at 70% and keeps ota, "Huge APP" puts it at 44% and drops ota
+- build it on **Minimal SPIFFS**. with ble on the sketch is 1394487 bytes, which is 106% of
+  the default partition and will not fit. minimal spiffs puts it at 70% and keeps ota
 
 alarm stuff:
 - multiple alarms, each with its own days of the week, all editable on the device
@@ -146,7 +145,7 @@ thing zipped, ready to drop straight into jlcpcb.
 - [x] pcb placed and routed, drc clean, gerbers + drill + step exported
 - [ ] case cad
 - [x] firmware: clock, matrix, alarms, info pages
-- [ ] firmware: ble remote and ancs, compiles but never run on hardware
+- [x] firmware: ble remote and ancs written, compiles, never run on hardware
 
 ## stuff to know if you build one
 
