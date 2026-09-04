@@ -87,14 +87,15 @@ start.
 
 ## the board
 
-69.5 x 97mm, 2 layers, 25 footprints. 284 tracks, 22 vias, about 2.1m of copper.
+69.5 x 97mm, 2 layers, 25 footprints. 461 tracks, 14 vias, about 1.5m of copper. drc clean,
+nothing unrouted.
 
 - keys on the top side at 19.05 pitch so the caps clear each other
-- everything else underneath, so the case only shows keycaps
-- xiao at the back with usb-c out the rear
+- xiao and display header on the underside, so the top face is just keycaps and the buzzer
+- xiao at the back with usb-c out the rear, on 2.54 sockets so it can be pulled out
 - 8 pin display header at the front edge so the jumper run to the screen is short
-- diodes tucked into the 5mm gaps between key rows
-- 4x m3 mounting holes
+- one diode per switch, sitting in the 3.45mm gap directly below it
+- 4x m3 mounting holes, pushed out to the corners so they clear the key block
 
 board sits flat under the top deck and the screen mounts on the front face, so they're on
 different planes and nothing on the pcb has to stay clear for the display.
@@ -125,17 +126,17 @@ sourced separately: nothing electrical. only thing outside the kit is filament f
 
 | path | what |
 |---|---|
-| `PCB/` | kicad project, gerbers, board step |
+| `PCB/` | kicad project, gerbers + drill, board step |
 | `CAD/` | assembly step, stls, onshape link |
 | `firmware/` | arduino sketch |
 
-kicad project is in `PCB/kicad_schematic/`. gerbers are in `PCB/gerber/`, ready to zip and send
-to a fab.
+kicad project is in `PCB/kicad_schematic/`. gerbers and the drill file are in `PCB/gerber/`, ready to
+zip and send to a fab.
 
 ## status
 
 - [x] schematic
-- [x] pcb placed and routed, gerbers + step exported
+- [x] pcb placed and routed, drc clean, gerbers + drill + step exported
 - [ ] case cad
 - [ ] firmware
 
@@ -148,6 +149,12 @@ to a fab.
   gpio you're already using, so wiring to them shorts two nets
 - the c3 has ble only, no bluetooth classic, so it can never be an a2dp speaker. driving the
   phone with a media remote is the way around it
+- an mx switch is 15.6mm across its widest point and a 1u dsa cap is 18.4mm, so any pitch
+  tighter than 19.05 physically will not go together. i found this out the slow way
+- kicad's mx footprint draws a 13.2mm courtyard and blare's draws 14mm, both smaller than the
+  real switch. drc will happily pass a key spacing you cannot actually build
+- socketing the xiao instead of soldering it flat costs about 11mm of depth under the board.
+  decide that before you model the base
 
 ## licence
 
