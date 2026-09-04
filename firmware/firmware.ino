@@ -18,10 +18,19 @@
     - all four pages come from one json off the relay, one request a minute
     - pages auto rotate, or arrow through them yourself
 
-  ble is written but switched off, see ENABLE_BLE below. it needs the
-  NimBLE-Arduino library and a real board to test on, i have neither yet.
+  ble is written but switched off, see ENABLE_BLE below. it compiles clean
+  with NimBLE-Arduino 2.5.1, i just have no board to run it on yet.
 
-  libraries: Adafruit GFX, Adafruit ST7735/ST7789, ArduinoJson 7
+  board: esp32 core 3.3.11, Seeed XIAO ESP32C3
+  libraries: Adafruit GFX, Adafruit ST7735/ST7789, Adafruit BusIO,
+             ArduinoJson 7, and NimBLE-Arduino only if ENABLE_BLE is 1
+
+  flash, measured:
+    ENABLE_BLE 0  ->  1155141 bytes, 88% of the default partition. fits.
+    ENABLE_BLE 1  ->  1394487 bytes, 106% of the default partition, so it
+                      does NOT fit. change Tools > Partition Scheme to
+                      "Minimal SPIFFS (1.9MB APP with OTA)" -> 70%, keeps ota
+                      or "Huge APP (3MB No OTA)"            -> 44%, no ota
 */
 
 #include <Adafruit_GFX.h>
@@ -37,6 +46,14 @@
 #include "globe.h"
 
 #define ENABLE_BLE 0    // 1 = build the spotify remote and iphone notifications
+
+// these have to be up here with the other includes. the .ino preprocessor
+// hoists its generated prototypes to the top of the file, so if the nimble
+// headers come later the prototypes are written before the types exist.
+#if ENABLE_BLE
+#include <NimBLEDevice.h>
+#include <NimBLEHIDDevice.h>
+#endif
 
 // ---------- pins ----------
 // see the readme for the full pin map
@@ -726,7 +743,6 @@ void stopBuzzer() {
 // NimBLE-Arduino and a board to test on.
 
 #if ENABLE_BLE
-#include <NimBLEDevice.h>
 
 // hid report map for a consumer control device, which is all we need to
 // send play, pause, next and previous
@@ -786,7 +802,7 @@ static void onNotifSrc(NimBLERemoteCharacteristic *c, uint8_t *d, size_t len, bo
   pendingUid = (uint32_t)d[4] | ((uint32_t)d[5] << 8) |
                ((uint32_t)d[6] << 16) | ((uint32_t)d[7] << 24);
 
-  NimBLEClient *cl = NimBLEDevice::getClientByPeerAddress(c->getRemoteService()->getClient()->getPeerAddress());
+  NimBLEClient *cl = c->getClient();
   if (!cl) return;
   NimBLERemoteService *svc = cl->getService(ancsService);
   if (!svc) return;
@@ -862,10 +878,10 @@ void bleStart() {
   hid->setPnp(0x02, 0xE502, 0xA111, 0x0210);
   hid->setHidInfo(0x00, 0x01);
   hid->setReportMap((uint8_t *)hidReportMap, sizeof(hidReportMap));
-  hid->startServices();
+  server->start();
 
   NimBLEAdvertising *adv = NimBLEDevice::getAdvertising();
-  adv->setAppearance(HID_KEYBOARD);
+  adv->setAppearance(0x03C1);      // hid keyboard
   adv->addServiceUUID(hid->getHidService()->getUUID());
   // asking the phone to show us its notification service
   adv->addServiceUUID(ancsService);
