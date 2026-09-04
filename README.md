@@ -126,12 +126,12 @@ sourced separately: nothing electrical. only thing outside the kit is filament f
 
 | path | what |
 |---|---|
-| `PCB/` | kicad project, gerbers + drill, board step |
+| `PCB/` | kicad project, gerbers + drill (loose and zipped), board step |
 | `CAD/` | assembly step, stls, onshape link |
 | `firmware/` | arduino sketch |
 
-kicad project is in `PCB/kicad_schematic/`. gerbers and the drill file are in `PCB/gerber/`, ready to
-zip and send to a fab.
+kicad project is in `PCB/kicad_schematic/`. gerbers and the drill file are in `PCB/gerber/`. `PCB/gerbers.zip` is the same
+thing zipped, ready to drop straight into jlcpcb.
 
 ## status
 
