@@ -54,12 +54,6 @@ the buzzer is the one exception, it stays on the key side under the top plate.
 
 ![pcb](images/pcb-3d.png)
 
-### case
-
-two printed parts, base and top plate, with the screen on the slanted face.
-
-![case](images/case.png)
-
 ## how it works
 
 the xiao has exactly 11 gpio and this uses every single one. that constraint shaped basically
@@ -163,59 +157,3 @@ sourced separately: nothing electrical. only thing outside the kit is filament f
 
 kicad project is in `PCB/kicad_schematic/`. gerbers and the drill file are in `PCB/gerber/`. `PCB/gerbers.zip` is the same
 thing zipped, ready to drop straight into jlcpcb.
-
-## building one
-
-the board
-
-1. send `PCB/gerbers.zip` to a fab. 2 layers, 1.6mm, any colour
-2. diodes first, they sit flattest. cathode stripe faces the column, backwards and
-   the scan reads nothing
-3. switches on the front, buzzer on the front
-4. xiao and the 8 pin header on the **back**, so the top face is only keycaps
-
-the firmware
-
-1. arduino ide, add `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
-   to board manager urls, install `esp32` by espressif
-2. libraries: adafruit gfx, adafruit st7735/st7789, adafruit busio, arduinojson 7,
-   nimble-arduino
-3. copy `firmware/secrets.h.example` to `firmware/secrets.h` and fill in your wifi,
-   timezone and relay url. secrets.h is gitignored
-4. board `XIAO_ESP32C3`, and set **Tools > Partition Scheme > Minimal SPIFFS**. the
-   default partition is too small once ble is on
-5. upload
-
-the case
-
-1. print `CAD/Bottom.step` and `CAD/Top.step`
-2. melt 4 m3x5x4 inserts into the posts, screw the board down with m3x8
-3. glue the top plate on
-
-## status
-
-- [x] schematic
-- [x] pcb placed and routed, drc clean, gerbers + drill + step exported
-- [ ] case cad
-- [x] firmware: clock, matrix, alarms, info pages
-- [x] firmware: ble remote and ancs written, compiles, never run on hardware
-
-## stuff to know if you build one
-
-- the display's `scl` and `sda` are spi, not i2c, despite the names
-- `vcc` on the display goes to 3v3. the pad next to gnd on the xiao is 5v and will kill it
-- diode cathodes face the columns. backwards and the scan reads nothing
-- the extra pads on top of the xiao symbol in kicad aren't spare pins. they're jtag pads for
-  gpio you're already using, so wiring to them shorts two nets
-- the c3 has ble only, no bluetooth classic, so it can never be an a2dp speaker. driving the
-  phone with a media remote is the way around it
-- an mx switch is 15.6mm across its widest point and a 1u dsa cap is 18.4mm, so any pitch
-  tighter than 19.05 physically will not go together. i found this out the slow way
-- kicad's mx footprint draws a 13.2mm courtyard and blare's draws 14mm, both smaller than the
-  real switch. drc will happily pass a key spacing you cannot actually build
-- socketing the xiao instead of soldering it flat costs about 11mm of depth under the board.
-  decide that before you model the base
-
-## licence
-
-mit, see [LICENSE](LICENSE)
