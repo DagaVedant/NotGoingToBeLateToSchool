@@ -7,7 +7,7 @@ sits on my desk cycling through weather, hackatime hours, now playing and world 
 6am it tells my phone to start playing spotify instead of screaming at me with a piezo. you
 get 3 snoozes, and on the 3rd one you have to type a code on the keypad before it stops.
 
-![hero](TODO-hero.jpg)
+![the board](images/pcb-3d.png)
 
 ## why
 
@@ -43,12 +43,27 @@ controls:
 
 ## pics
 
-| | |
+### schematic
+
+nine switches in a 3x3 matrix, one 1n4148 per key so holding two keys down cannot
+ghost a third. rows on d0 d9 d10, columns on d6 d7 d8.
+
+![schematic](images/schematic.png)
+
+### pcb
+
+keys live on the front, everything else is on the back so the case only shows keycaps.
+the buzzer is the one exception, it stays on the key side under the top plate.
+
+| front | back |
 |---|---|
-| schematic | ![](TODO-schematic.png) |
-| pcb | ![](TODO-pcb.png) |
-| cad | ![](TODO-cad.png) |
-| built | ![](TODO-built.jpg) |
+| ![pcb front](images/pcb-front.png) | ![pcb back](images/pcb-back.png) |
+
+### case
+
+two printed parts, base and top plate, with the screen on the slanted face.
+
+![case](images/case.png)
 
 ## how it works
 
@@ -106,6 +121,20 @@ nothing unrouted.
 board sits flat under the top deck and the screen mounts on the front face, so they're on
 different planes and nothing on the pcb has to stay clear for the display.
 
+## the case
+
+two printed parts, base and a separate top plate.
+
+- raked shell so the screen sits at a readable angle instead of flat on the desk
+- pcb sits on 4 posts with m3x5x4 heatset inserts
+- 17mm of clear height under the board, because the xiao is socketed and hangs
+  15.24mm below it. that one number sets the whole case depth
+- top plate is 2mm with a 58mm square cutout for the keys. glued on, not screwed
+- screen mounts on the slanted front face and jumpers back to the 8 pin header,
+  so the board and the screen sit on different planes and neither has to dodge
+  the other
+- usb-c out the back, buzzer holes in the top plate
+
 ## bom
 
 from the kit:
@@ -135,9 +164,38 @@ sourced separately: nothing electrical. only thing outside the kit is filament f
 | `PCB/` | kicad project, gerbers + drill (loose and zipped), board step |
 | `CAD/` | assembly step, stls, onshape link |
 | `firmware/` | arduino sketch |
+| `images/` | renders used in this readme |
 
 kicad project is in `PCB/kicad_schematic/`. gerbers and the drill file are in `PCB/gerber/`. `PCB/gerbers.zip` is the same
 thing zipped, ready to drop straight into jlcpcb.
+
+## building one
+
+the board
+
+1. send `PCB/gerbers.zip` to a fab. 2 layers, 1.6mm, any colour
+2. diodes first, they sit flattest. cathode stripe faces the column, backwards and
+   the scan reads nothing
+3. switches on the front, buzzer on the front
+4. xiao and the 8 pin header on the **back**, so the top face is only keycaps
+
+the firmware
+
+1. arduino ide, add `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
+   to board manager urls, install `esp32` by espressif
+2. libraries: adafruit gfx, adafruit st7735/st7789, adafruit busio, arduinojson 7,
+   nimble-arduino
+3. copy `firmware/secrets.h.example` to `firmware/secrets.h` and fill in your wifi,
+   timezone and relay url. secrets.h is gitignored
+4. board `XIAO_ESP32C3`, and set **Tools > Partition Scheme > Minimal SPIFFS**. the
+   default partition is too small once ble is on
+5. upload
+
+the case
+
+1. print `CAD/Bottom.step` and `CAD/Top.step`
+2. melt 4 m3x5x4 inserts into the posts, screw the board down with m3x8
+3. glue the top plate on
 
 ## status
 
