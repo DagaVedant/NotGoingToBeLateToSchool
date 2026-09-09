@@ -2,12 +2,9 @@
 
 a 9 key alarm clock that makes you type a code to shut it up.
 
-built on a xiao esp32c3 for [hack club blare](https://blare.hackclub.com). during the day it
-sits on my desk cycling through weather, hackatime hours, now playing and world clocks. at
-6am it tells my phone to start playing spotify instead of screaming at me with a piezo. you
-get 3 snoozes, and on the 3rd one you have to type a code on the keypad before it stops.
+built on a xiao esp32c3 for BLARE. during the day it sits on my desk cycling through weather, hackatime hours, now playing and world clocks. at 6am it tells my phone to start playing spotify instead of screaming at me with a piezo. you get 3 snoozes, and on the 3rd one you have to type a code on the keypad before it stops.
 
-![the board](images/pcb-3d.png)
+![notgoingtobelatetoschool](images/full.webp)
 
 ## why
 
@@ -55,9 +52,7 @@ ghost a third. rows on d0 d9 d10, columns on d6 d7 d8.
 keys live on the front, everything else is on the back so the case only shows keycaps.
 the buzzer is the one exception, it stays on the key side under the top plate.
 
-| front | back |
-|---|---|
-| ![pcb front](images/pcb-front.png) | ![pcb back](images/pcb-back.png) |
+![pcb](images/pcb-3d.png)
 
 ### case
 
@@ -223,4 +218,4 @@ the case
 
 ## licence
 
-TODO
+mit, see [LICENSE](LICENSE)
