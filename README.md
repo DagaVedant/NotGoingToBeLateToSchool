@@ -4,7 +4,13 @@ a 9 key alarm clock that makes you type a code to shut it up.
 
 built on a xiao esp32c3 for BLARE. during the day it sits on my desk cycling through weather, hackatime hours, now playing and world clocks. at 6am it tells my phone to start playing spotify instead of screaming at me with a piezo. you get 3 snoozes, and on the 3rd one you have to type a code on the keypad before it stops.
 
-![notgoingtobelatetoschool](images/full.webp)
+![notgoingtobelatetoschool](images/full.png)
+
+the display screws down through its own two mounting holes, 16.26 apart, into
+blind pilots in the slanted face. it seats on the wall around the window rather
+than floating in it.
+
+![display mounting](images/screw_holes.png)
 
 ## why
 
