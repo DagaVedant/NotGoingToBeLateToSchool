@@ -12,10 +12,12 @@ to snooze into oblivion. this one tries to fix both.
 
 ![notgoingtobelatetoschool](images/full.png)
 
-the display screws down through its own two mounting holes into blind pilots in the slanted
-face, and seats on the wall around the window instead of floating in it.
+the display lives inside the case, flat against the inner face of the slanted front wall with
+its glass poking out through the window. two small printed clamp bars hold it there, each
+screwed into a pair of m3 heatset bosses on the wall, so it is held at four points and its own
+tiny mounting holes are not used at all.
 
-![display mounting](images/screw_holes.png)
+![display mounting](images/display_mounting.png)
 
 ## what it does
 
