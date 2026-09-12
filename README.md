@@ -13,9 +13,9 @@ to snooze into oblivion. this one tries to fix both.
 ![notgoingtobelatetoschool](images/full.png)
 
 the display lives inside the case, flat against the inner face of the slanted front wall with
-its glass poking out through the window. two small printed clamp bars hold it there, each
-screwed into a pair of m3 heatset bosses on the wall, so it is held at four points and its own
-tiny mounting holes are not used at all.
+its glass poking out through the window. its top edge slides under a lip printed on the wall,
+and a printed rail clamps the bottom edge, screwed into two m3 heatset bosses. the display's
+own tiny mounting holes are not used at all.
 
 ![display mounting](images/display_mounting.png)
 
