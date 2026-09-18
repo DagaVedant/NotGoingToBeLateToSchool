@@ -12,6 +12,19 @@ to snooze into oblivion. this one tries to fix both.
 
 ![notgoingtobelatetoschool](images/full.png)
 
+the top plate is held by four m3x8 screws of its own, into heatset inserts in four small
+bosses that hang off the inside of the side walls just above the pcb. they are separate from
+the pcb posts, so the board can come out without touching the plate hardware. the bosses sit
+over the board, so they need a bit of support when printing the base.
+
+![inside the case](images/case_inside.png)
+
+the pcb sits on four posts that land exactly on its mounting holes. the xiao is socketed on
+the underside, so its usb-c port ends up 13mm below the board, and the slot in the back wall
+is cut around that spot, not at board height.
+
+![rear usb slot](images/rear_usb.png)
+
 ## what it does
 
 **ambient**, all day
