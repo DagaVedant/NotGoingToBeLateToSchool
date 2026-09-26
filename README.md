@@ -12,10 +12,11 @@ to snooze into oblivion. this one tries to fix both.
 
 ![notgoingtobelatetoschool](images/full.png)
 
-the top plate is held by four m3x8 screws of its own, into heatset inserts in four small
-bosses that hang off the inside of the side walls just above the pcb. they are separate from
-the pcb posts, so the board can come out without touching the plate hardware. the bosses sit
-over the board, so they need a bit of support when printing the base.
+the top plate and the pcb share hardware: one m3x16 screw per corner runs down through the
+top plate boss and the board into the same heatset insert the pcb post already carries, so
+there's no separate top-plate insert or screw anymore. simpler, but the board can't come out
+without pulling the top plate first. the bosses sit over the board, so they need a bit of
+support when printing the base.
 
 ![inside the case](images/case_inside.png)
 
