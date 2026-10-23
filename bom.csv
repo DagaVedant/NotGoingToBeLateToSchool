@@ -1,0 +1,11 @@
+part,qty
+seeed xiao esp32c3,1
+st7789 tft (76x284),1
+cherry mx pcb-mount switches,9
+mx keycaps,9
+1n4148 diodes,9
+piezo buzzer (12x9.5, rm7.6),1
+1x08 2.54mm pin socket (display),1
+1x07 2.54mm pin sockets (xiao),2
+m3x16 screws,4
+m3 heatset inserts,4

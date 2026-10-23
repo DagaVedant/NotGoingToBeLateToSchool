@@ -66,3 +66,20 @@ nine switches in a 3x3 matrix, one 1n4148 per key so holding two keys down canno
 third.
 
 ![schematic](images/schematic.png)
+
+## bom
+
+| part | qty |
+|------|-----|
+| seeed xiao esp32c3 | 1 |
+| st7789 tft (76×284) | 1 |
+| cherry mx pcb-mount switches | 9 |
+| mx keycaps | 9 |
+| 1n4148 diodes | 9 |
+| piezo buzzer (12×9.5, rm7.6) | 1 |
+| 1×08 2.54mm pin socket (display) | 1 |
+| 1×07 2.54mm pin sockets (xiao) | 2 |
+| m3×16 screws | 4 |
+| m3 heatset inserts | 4 |
+
+same list in [bom.csv](bom.csv).
