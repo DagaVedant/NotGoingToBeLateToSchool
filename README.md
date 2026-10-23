@@ -60,6 +60,12 @@ nothing unrouted.
 - one diode per switch, sitting in the 3.45mm gap directly below it
 - 4x m3 mounting holes, pushed out to the corners so they clear the key block
 
+the routed layout in kicad, red is the front copper and blue is the back:
+
+![pcb layout](images/pcb-layout.png)
+
+and a 3d render of the same board:
+
 ![pcb](images/pcb-3d.png)
 
 nine switches in a 3x3 matrix, one 1n4148 per key so holding two keys down cannot ghost a
