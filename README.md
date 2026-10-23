@@ -82,4 +82,4 @@ third.
 | m3×16 screws | 4 |
 | m3 heatset inserts | 4 |
 
-same list in [bom.csv](bom.csv).
+same list in [BOM.csv](BOM.csv).
